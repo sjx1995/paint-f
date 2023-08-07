@@ -1,10 +1,10 @@
 /*
- * @Description:
+ * @Description: main
  * @Author: Sunly
  * @Date: 2023-08-05 04:07:11
  */
 import { createApp } from "vue";
-import "./style.css";
+import "./style.scss";
 import App from "./App.vue";
 
 // Vuetify
