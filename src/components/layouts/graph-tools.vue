@@ -8,11 +8,9 @@ import { useCreateCanvas } from "@/hooks/useFabric";
 import { Icon } from "@iconify/vue";
 import { fabric } from "fabric";
 import { onMounted, nextTick } from "vue";
-import {
-  createCircle,
-  createLine,
-  createRect,
-} from "@/utils/fabric/createGraph";
+import { createLine } from "@/utils/fabric/line";
+import { createRect } from "@/utils/fabric/rect";
+import { createCircle } from "@/utils/fabric/circle";
 
 enum EnumGraphType {
   line = "line",
@@ -22,7 +20,7 @@ enum EnumGraphType {
 
 const graphs = [
   {
-    icon: "material-symbols:line-end",
+    icon: "pepicons-pop:line-x",
     type: EnumGraphType.line,
     name: "直线",
   },

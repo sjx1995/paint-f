@@ -5,11 +5,15 @@
 -->
 <script lang="ts" setup>
 import GraphTools from "@/components/layouts/graph-tools.vue";
+import AttributeTools from "./components/layouts/attribute-tools.vue";
+import RightTools from "./components/layouts/right-tools.vue";
 import { useCreateCanvas } from "@/hooks/useFabric";
 import { useCreateWorkspace } from "@/hooks/useWorkspace";
+import { useSelection } from "./hooks/useSelection";
 
 useCreateCanvas("canvas");
 useCreateWorkspace(768, 1024);
+useSelection();
 </script>
 
 <template>
@@ -20,7 +24,10 @@ useCreateWorkspace(768, 1024);
     <div id="mid-container">
       <canvas id="canvas" />
     </div>
-    <div id="right-container" />
+    <div id="right-container">
+      <RightTools />
+      <!-- <AttributeTools /> -->
+    </div>
   </div>
 </template>
 
@@ -30,14 +37,16 @@ useCreateWorkspace(768, 1024);
   height: 100vh;
   display: flex;
   #left-container {
-    width: 300px;
+    min-width: 300px;
+    background-color: #ccc;
   }
   #mid-container {
     flex-grow: 1;
     background-color: $color-gray;
   }
   #right-container {
-    width: 300px;
+    min-width: 400px;
+    background-color: #ccc;
   }
 }
 </style>
