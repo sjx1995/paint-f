@@ -28,15 +28,33 @@ const useCreateWorkspace = (width?: number, height?: number) => {
     }
 
     if (workspace) {
-      removeWorkspace(canvas, workspace);
+      removeWorkspace(workspace);
       workspace = null;
     }
 
     workspace = initWorkspace(canvas, width, height);
   });
+
+  return {
+    workspace,
+  };
 };
 
-const removeWorkspace = (canvas: fabric.Canvas, workspace: fabric.Rect) => {
+const setWorkspaceAttribute = (option: fabric.IRectOptions) => {
+  if (!workspace) {
+    throw new Error("workspace is not exist");
+  }
+  if (!canvas) {
+    throw new Error("canvas is not exist");
+  }
+  workspace.set(option);
+  canvas?.renderAll();
+};
+
+const removeWorkspace = (workspace: fabric.Rect) => {
+  if (!canvas) {
+    throw new Error("canvas is not exist");
+  }
   canvas.remove(workspace);
 };
 
@@ -88,4 +106,4 @@ const getWorkspaceScale = () => {
   return scale;
 };
 
-export { useCreateWorkspace, getWorkspaceScale };
+export { useCreateWorkspace, setWorkspaceAttribute, getWorkspaceScale };

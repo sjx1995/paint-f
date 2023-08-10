@@ -42,18 +42,17 @@ ee.on(enumEvent.SELECT_ONE, (obj: ILine | IRect | ICircle) => {
   if (isLine(obj)) {
     const lineAttrs = reduceObjAttrs(obj);
     objAttrs = Object.assign(objAttrs, { ...lineAttrs });
-    showAttribute.value = true;
   } else if (isRect(obj)) {
     const rectAttrs = reduceObjAttrs(obj);
     objAttrs = Object.assign(objAttrs, { ...rectAttrs });
-    showAttribute.value = true;
   } else if (isCircle(obj)) {
     const circleAttrs = reduceObjAttrs(obj);
     objAttrs = Object.assign(objAttrs, { ...circleAttrs });
-    showAttribute.value = true;
   } else if (isTextBox(obj)) {
     const textBoxAttrs = reduceObjAttrs(obj);
     objAttrs = Object.assign(objAttrs, { ...textBoxAttrs });
+  }
+  if (isEditableObj(obj)) {
     showAttribute.value = true;
   }
 });
@@ -191,7 +190,7 @@ const updateBorderType = (dashType: number[]) => {
 </script>
 
 <template>
-  <div v-if="showAttribute" class="controller-container">
+  <div v-show="showAttribute" class="controller-container">
     <div class="controller-item">
       <div class="controller-item-label">左边距</div>
       <div class="controller-item-value">

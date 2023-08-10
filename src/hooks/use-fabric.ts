@@ -55,7 +55,7 @@ const initCanvas = (
 ) => {
   return new fabric.Canvas(id, {
     stopContextMenu: true, // 禁用右键菜单
-    backgroundColor: "#f2f2f2", // 背景颜色
+    backgroundColor: "transparent", // 背景颜色
     // width,
     // height,
   });

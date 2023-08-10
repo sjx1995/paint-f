@@ -5,8 +5,7 @@
 -->
 <script lang="ts" setup>
 import GraphTools from "@/components/layouts/graph-tools.vue";
-import AttributeTools from "./components/layouts/attribute-tools.vue";
-// import RightTools from "./components/layouts/right-tools.vue";
+import RightTools from "./components/layouts/right-tools.vue";
 import { useCreateCanvas } from "@/hooks/use-fabric";
 import { useCreateWorkspace } from "@/hooks/use-workspace";
 import { useSelection } from "@/hooks/use-selection";
@@ -27,8 +26,7 @@ useObjectEvent();
       <canvas id="canvas" />
     </div>
     <div id="right-container">
-      <!-- <RightTools /> -->
-      <AttributeTools />
+      <RightTools />
     </div>
   </div>
 </template>
@@ -44,7 +42,26 @@ useObjectEvent();
   }
   #mid-container {
     flex-grow: 1;
-    background-color: $color-gray;
+    background: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.15) 25%,
+        transparent 25%,
+        transparent 75%,
+        rgba(0, 0, 0, 0.15) 75%,
+        rgba(0, 0, 0, 0.15) 100%
+      ),
+      linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.15) 25%,
+        transparent 25%,
+        transparent 75%,
+        rgba(0, 0, 0, 0.15) 75%,
+        rgba(0, 0, 0, 0.15) 100%
+      );
+    background-size: 36px 36px;
+    background-position:
+      0 0,
+      18px 18px;
   }
   #right-container {
     min-width: 400px;
