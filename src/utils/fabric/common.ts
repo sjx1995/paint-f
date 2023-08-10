@@ -3,10 +3,26 @@
  * @Author: Sunly
  * @Date: 2023-08-08 07:16:36
  */
-import { useCreateCanvas } from "@/hooks/useFabric";
+import { useCreateCanvas } from "@/hooks/use-fabric";
 import { ILine, type ILineOptions } from "./line";
 import { IRect, type IRectOptions } from "./rect";
 import { ICircle, type ICircleOptions } from "./circle";
+
+// 判断对象类型
+const isEditableObj = (
+  obj: fabric.Object
+): obj is ILine | IRect | ICircle | ITextBox => {
+  return isLine(obj) || isRect(obj) || isCircle(obj) || isTextBox(obj);
+};
+const isLine = (obj: fabric.Object): obj is ILine => {
+  return obj instanceof ILine;
+};
+const isRect = (obj: fabric.Object): obj is IRect => {
+  return obj instanceof IRect;
+};
+const isCircle = (obj: fabric.Object): obj is ICircle => {
+  return obj instanceof ICircle;
+};
 
 // 图形对象的通用属性类型
 type ICommonObjAttr = {
@@ -99,25 +115,15 @@ function updateObjAttrs(
   cvs.renderAll();
 }
 
-// 判断对象类型
-const isLine = (obj: fabric.Object): obj is ILine => {
-  return obj instanceof ILine;
-};
-const isRect = (obj: fabric.Object): obj is IRect => {
-  return obj instanceof IRect;
-};
-const isCircle = (obj: fabric.Object): obj is ICircle => {
-  return obj instanceof ICircle;
-};
-
 export {
+  isEditableObj,
+  isLine,
+  isRect,
+  isCircle,
   reduceObjAttrs,
   type ICommonObjAttr,
   type ILineObjAttr,
   type IRectObjAttr,
   type ICircleObjAttr,
   updateObjAttrs,
-  isLine,
-  isRect,
-  isCircle,
 };

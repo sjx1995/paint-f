@@ -4,7 +4,7 @@
  * @Date: 2023-08-07 08:06:41
 -->
 <script lang="ts" setup>
-import { ee, enumEvent } from "@/utils/eventEmitter";
+import { ee, enumEvent } from "@/utils/event-emitter";
 import { ILine } from "@/utils/fabric/line";
 import { IRect } from "@/utils/fabric/rect";
 import { ICircle } from "@/utils/fabric/circle";
@@ -25,7 +25,7 @@ import ISlider from "@/components/i-slider.vue";
 import ISelect from "@/components/i-select.vue";
 
 let curObj: fabric.Object | null;
-ee.on(enumEvent.selectOne, (obj: ILine | IRect | ICircle) => {
+ee.on(enumEvent.SELECT_ONE, (obj: ILine | IRect | ICircle) => {
   console.log(obj);
 
   curObj = obj;
@@ -44,9 +44,26 @@ ee.on(enumEvent.selectOne, (obj: ILine | IRect | ICircle) => {
   }
 });
 
-ee.on(enumEvent.selectNone, () => {
+ee.on(enumEvent.SELECT_NONE, () => {
   curObj = null;
   showAttribute.value = false;
+});
+
+ee.on(enumEvent.MOVING, ({ left, top }: { left: number; top: number }) => {
+  objAttrs.left = left;
+  objAttrs.top = top;
+});
+
+ee.on(
+  enumEvent.SCALING,
+  ({ scaleX, scaleY }: { scaleX: number; scaleY: number }) => {
+    objAttrs.scaleX = scaleX;
+    objAttrs.scaleY = scaleY;
+  }
+);
+
+ee.on(enumEvent.ROTATING, (angle: number) => {
+  objAttrs.rotate = angle;
 });
 
 const showAttribute = ref(false);
@@ -71,7 +88,7 @@ let objAttrs = reactive<
 // 修改填充颜色
 const updateFillColor = (color: string) => {
   objAttrs.fillColor = color;
-  if (curObj instanceof IRect || curObj instanceof ICircle) {
+  if (curObj && isEditableObj(curObj) && !isLine(curObj)) {
     updateObjAttrs(curObj, { fill: color });
   }
 };

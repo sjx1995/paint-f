@@ -4,7 +4,7 @@
  * @Date: 2023-08-07 08:30:25
  */
 import { onMounted } from "vue";
-import { useCreateCanvas, setCvsScale } from "./useFabric";
+import { useCreateCanvas, setCvsScale } from "./use-fabric";
 import { fabric } from "fabric";
 
 let canvas: fabric.Canvas | null;

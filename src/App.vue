@@ -6,14 +6,16 @@
 <script lang="ts" setup>
 import GraphTools from "@/components/layouts/graph-tools.vue";
 import AttributeTools from "./components/layouts/attribute-tools.vue";
-import RightTools from "./components/layouts/right-tools.vue";
-import { useCreateCanvas } from "@/hooks/useFabric";
-import { useCreateWorkspace } from "@/hooks/useWorkspace";
-import { useSelection } from "./hooks/useSelection";
+// import RightTools from "./components/layouts/right-tools.vue";
+import { useCreateCanvas } from "@/hooks/use-fabric";
+import { useCreateWorkspace } from "@/hooks/use-workspace";
+import { useSelection } from "@/hooks/use-selection";
+import { useObjectEvent } from "@/hooks/use-object-event";
 
 useCreateCanvas("canvas");
 useCreateWorkspace(768, 1024);
 useSelection();
+useObjectEvent();
 </script>
 
 <template>
@@ -25,8 +27,8 @@ useSelection();
       <canvas id="canvas" />
     </div>
     <div id="right-container">
-      <RightTools />
-      <!-- <AttributeTools /> -->
+      <!-- <RightTools /> -->
+      <AttributeTools />
     </div>
   </div>
 </template>
@@ -50,3 +52,4 @@ useSelection();
   }
 }
 </style>
+./hooks/use-selection

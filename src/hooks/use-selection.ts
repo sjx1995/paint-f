@@ -3,12 +3,12 @@
  * @Author: Sunly
  * @Date: 2023-08-07 14:33:41
  */
-import { nextTick } from "vue";
-import { useCreateCanvas } from "./useFabric";
-import { ee, enumEvent } from "@/utils/eventEmitter";
+import { onMounted } from "vue";
+import { useCreateCanvas } from "./use-fabric";
+import { ee, enumEvent } from "@/utils/event-emitter";
 
 const useSelection = () => {
-  nextTick(() => {
+  onMounted(() => {
     const canvas = useCreateCanvas().canvas;
     if (!canvas) {
       throw new Error("canvas is not exist");
@@ -16,7 +16,7 @@ const useSelection = () => {
 
     canvas.on("selection:created", (opt) => {
       if (opt.selected?.length === 1) {
-        ee.emit(enumEvent.selectOne, opt.selected[0]);
+        ee.emit(enumEvent.SELECT_ONE, opt.selected[0]);
       }
     });
 
@@ -25,7 +25,7 @@ const useSelection = () => {
     });
 
     canvas.on("selection:cleared", () => {
-      ee.emit(enumEvent.selectNone);
+      ee.emit(enumEvent.SELECT_NONE);
     });
   });
 };

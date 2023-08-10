@@ -4,7 +4,7 @@
  * @Date: 2023-08-07 04:49:46
 -->
 <script lang="ts" setup>
-import { useCreateCanvas } from "@/hooks/useFabric";
+import { useCreateCanvas } from "@/hooks/use-fabric";
 import { Icon } from "@iconify/vue";
 import { fabric } from "fabric";
 import { onMounted, nextTick } from "vue";
@@ -16,22 +16,25 @@ enum EnumGraphType {
   line = "line",
   rect = "rect",
   circle = "circle",
+  LINE = "line",
+  RECT = "rect",
+  CIRCLE = "circle",
 }
 
 const graphs = [
   {
     icon: "pepicons-pop:line-x",
-    type: EnumGraphType.line,
+    type: EnumGraphType.LINE,
     name: "直线",
   },
   {
     icon: "iconoir:3d-rect-corner-to-corner",
-    type: EnumGraphType.rect,
+    type: EnumGraphType.RECT,
     name: "矩形",
   },
   {
     icon: "material-symbols:circle-outline",
-    type: EnumGraphType.circle,
+    type: EnumGraphType.CIRCLE,
     name: "圆形",
   },
 ];
@@ -40,13 +43,13 @@ const getGraph = (type: EnumGraphType) => {
   let willAddGraph: fabric.Object | null = null;
 
   switch (type) {
-    case EnumGraphType.line:
+    case EnumGraphType.LINE:
       willAddGraph = createLine();
       break;
-    case EnumGraphType.rect:
+    case EnumGraphType.RECT:
       willAddGraph = createRect();
       break;
-    case EnumGraphType.circle:
+    case EnumGraphType.CIRCLE:
       willAddGraph = createCircle();
       break;
     default:
