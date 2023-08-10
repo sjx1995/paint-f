@@ -7,6 +7,7 @@ import { useCreateCanvas } from "@/hooks/use-fabric";
 import { ILine, type ILineOptions } from "./line";
 import { IRect, type IRectOptions } from "./rect";
 import { ICircle, type ICircleOptions } from "./circle";
+import { ITextBox, type ITextBoxOptions } from "./text-box";
 
 // 判断对象类型
 const isEditableObj = (
@@ -22,6 +23,9 @@ const isRect = (obj: fabric.Object): obj is IRect => {
 };
 const isCircle = (obj: fabric.Object): obj is ICircle => {
   return obj instanceof ICircle;
+};
+const isTextBox = (obj: fabric.Object): obj is ITextBox => {
+  return obj instanceof ITextBox;
 };
 
 // 图形对象的通用属性类型
@@ -53,11 +57,18 @@ type ICircleObjAttr = {
   fillColor: string;
 };
 
+// 文字box特殊属性类型
+type ITextBoxObjAttr = {
+  fillColor: string;
+  backgroundColor: string;
+};
+
 // 处理不同类型的对象的属性，根据类型返回对应的属性集合
 function reduceObjAttrs(obj: ILine): ICommonObjAttr & ILineObjAttr;
 function reduceObjAttrs(obj: IRect): ICommonObjAttr & IRectObjAttr;
 function reduceObjAttrs(obj: ICircle): ICommonObjAttr & ICircleObjAttr;
-function reduceObjAttrs(obj: ILine | IRect | ICircle) {
+function reduceObjAttrs(obj: ITextBox): ICommonObjAttr & ITextBoxObjAttr;
+function reduceObjAttrs(obj: ILine | IRect | ICircle | ITextBox) {
   // 处理公共属性
   const attrs = {} as ICommonObjAttr;
   attrs.top = obj.top || 0;
@@ -72,29 +83,38 @@ function reduceObjAttrs(obj: ILine | IRect | ICircle) {
   attrs.scaleX = obj.scaleX || 1;
   attrs.scaleY = obj.scaleY || 1;
   // 处理直线特殊属性
-  if (obj instanceof ILine) {
+  if (isLine(obj)) {
     const lineAttrs = attrs as ILineObjAttr & ICommonObjAttr;
     return lineAttrs;
   }
   // 处理矩形特殊属性
-  else if (obj instanceof IRect) {
+  else if (isRect(obj)) {
     const rectAttrs = attrs as IRectObjAttr & ICommonObjAttr;
     rectAttrs.fillColor = obj.fill as string;
     return rectAttrs;
   }
   // 处理圆形特殊属性
-  else if (obj instanceof ICircle) {
+  else if (isCircle(obj)) {
     const circleAttrs = attrs as ICircleObjAttr & ICommonObjAttr;
     circleAttrs.fillColor = obj.fill as string;
     return circleAttrs;
+  }
+  // 处理文字box特殊属性
+  else if (isTextBox(obj)) {
+    const textBoxAttrs = attrs as ITextBoxObjAttr & ICommonObjAttr;
+    textBoxAttrs.fillColor = obj.fill as string;
+    textBoxAttrs.backgroundColor = obj.backgroundColor as string;
+    return textBoxAttrs;
   }
 }
 
 // 修改对象属性
 let cvs: fabric.Canvas | null;
 function updateObjAttrs(
-  obj: ILine | IRect | ICircle,
-  options: Partial<ILineOptions & IRectOptions & ICircleOptions>,
+  obj: ILine | IRect | ICircle | ITextBox,
+  options: Partial<
+    ILineOptions & IRectOptions & ICircleOptions & ITextBoxOptions
+  >,
   type?: "rotate"
 ) {
   if (type === "rotate" && typeof options.angle === "number") {
@@ -104,6 +124,8 @@ function updateObjAttrs(
   } else if (obj instanceof IRect) {
     obj.set(options);
   } else if (obj instanceof ICircle) {
+    obj.set(options);
+  } else if (obj instanceof ITextBox) {
     obj.set(options);
   }
   if (!cvs) {
@@ -120,10 +142,12 @@ export {
   isLine,
   isRect,
   isCircle,
+  isTextBox,
   reduceObjAttrs,
   type ICommonObjAttr,
   type ILineObjAttr,
   type IRectObjAttr,
   type ICircleObjAttr,
+  type ITextBoxObjAttr,
   updateObjAttrs,
 };

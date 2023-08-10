@@ -11,14 +11,13 @@ import { onMounted, nextTick } from "vue";
 import { createLine } from "@/utils/fabric/line";
 import { createRect } from "@/utils/fabric/rect";
 import { createCircle } from "@/utils/fabric/circle";
+import { createTextBox } from "@/utils/fabric/text-box";
 
 enum EnumGraphType {
-  line = "line",
-  rect = "rect",
-  circle = "circle",
   LINE = "line",
   RECT = "rect",
   CIRCLE = "circle",
+  TEXT = "text",
 }
 
 const graphs = [
@@ -37,6 +36,11 @@ const graphs = [
     type: EnumGraphType.CIRCLE,
     name: "圆形",
   },
+  {
+    icon: "cil:font",
+    type: EnumGraphType.TEXT,
+    name: "文字",
+  },
 ];
 
 const getGraph = (type: EnumGraphType) => {
@@ -51,6 +55,9 @@ const getGraph = (type: EnumGraphType) => {
       break;
     case EnumGraphType.CIRCLE:
       willAddGraph = createCircle();
+      break;
+    case EnumGraphType.TEXT:
+      willAddGraph = createTextBox("请输入文字");
       break;
     default:
       break;

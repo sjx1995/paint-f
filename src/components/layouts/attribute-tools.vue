@@ -13,11 +13,14 @@ import {
   type ICommonObjAttr,
   type ILineObjAttr,
   type IRectObjAttr,
+  type ITextBoxObjAttr,
   reduceObjAttrs,
   updateObjAttrs,
+  isEditableObj,
   isLine,
   isRect,
   isCircle,
+  isTextBox,
 } from "@/utils/fabric/common";
 import { reactive, ref } from "vue";
 import IColorPicker from "@/components/i-color-picker.vue";
@@ -27,8 +30,15 @@ import ISelect from "@/components/i-select.vue";
 let curObj: fabric.Object | null;
 ee.on(enumEvent.SELECT_ONE, (obj: ILine | IRect | ICircle) => {
   console.log(obj);
-
   curObj = obj;
+
+  // 处理特殊属性
+  hasBorder.value = isLine(curObj)
+    ? true
+    : obj.strokeWidth
+    ? obj.strokeWidth > 0
+    : false;
+
   if (isLine(obj)) {
     const lineAttrs = reduceObjAttrs(obj);
     objAttrs = Object.assign(objAttrs, { ...lineAttrs });
@@ -40,6 +50,10 @@ ee.on(enumEvent.SELECT_ONE, (obj: ILine | IRect | ICircle) => {
   } else if (isCircle(obj)) {
     const circleAttrs = reduceObjAttrs(obj);
     objAttrs = Object.assign(objAttrs, { ...circleAttrs });
+    showAttribute.value = true;
+  } else if (isTextBox(obj)) {
+    const textBoxAttrs = reduceObjAttrs(obj);
+    objAttrs = Object.assign(objAttrs, { ...textBoxAttrs });
     showAttribute.value = true;
   }
 });
@@ -68,7 +82,11 @@ ee.on(enumEvent.ROTATING, (angle: number) => {
 
 const showAttribute = ref(false);
 let objAttrs = reactive<
-  ICommonObjAttr & ILineObjAttr & IRectObjAttr & ICircleObjAttr
+  ICommonObjAttr &
+    ILineObjAttr &
+    IRectObjAttr &
+    ICircleObjAttr &
+    ITextBoxObjAttr
 >({
   top: 0,
   left: 0,
@@ -83,6 +101,7 @@ let objAttrs = reactive<
   // shadow: "",
   scaleX: 1,
   scaleY: 1,
+  backgroundColor: "",
 });
 
 // 修改填充颜色
@@ -93,16 +112,20 @@ const updateFillColor = (color: string) => {
   }
 };
 
+// 修改背景颜色
+const updateBackgroundColor = (color: string) => {
+  objAttrs.fillColor = color;
+  if (curObj && isTextBox(curObj)) {
+    updateObjAttrs(curObj, { backgroundColor: color });
+  }
+};
+
 // 显式隐藏边框
-const hasBorder = ref(true);
+const hasBorder = ref(false);
 const updateBorder = (value: boolean) => {
   hasBorder.value = value;
-  if (
-    curObj instanceof ILine ||
-    curObj instanceof IRect ||
-    curObj instanceof ICircle
-  ) {
-    const strokeWidth = value ? 4 : 0;
+  if (curObj && isEditableObj(curObj)) {
+    const strokeWidth = value ? (isTextBox(curObj) ? 1 : 4) : 0;
     objAttrs.borderWidth = strokeWidth;
     updateObjAttrs(curObj, { strokeWidth });
   }
@@ -111,11 +134,7 @@ const updateBorder = (value: boolean) => {
 // 修改边框颜色
 const updateBorderColor = (color: string) => {
   objAttrs.borderColor = color;
-  if (
-    curObj instanceof ILine ||
-    curObj instanceof IRect ||
-    curObj instanceof ICircle
-  ) {
+  if (curObj && isEditableObj(curObj)) {
     updateObjAttrs(curObj, { stroke: color });
   }
 };
@@ -123,11 +142,7 @@ const updateBorderColor = (color: string) => {
 // 修改旋转角度
 const updateRotate = (rotate: number) => {
   objAttrs.rotate = rotate;
-  if (
-    curObj instanceof ILine ||
-    curObj instanceof IRect ||
-    curObj instanceof ICircle
-  ) {
+  if (curObj && isEditableObj(curObj)) {
     updateObjAttrs(curObj, { angle: rotate }, "rotate");
   }
 };
@@ -135,11 +150,7 @@ const updateRotate = (rotate: number) => {
 // 修改透明度
 const updateOpacity = (opacity: number) => {
   objAttrs.opacity = opacity;
-  if (
-    curObj instanceof ILine ||
-    curObj instanceof IRect ||
-    curObj instanceof ICircle
-  ) {
+  if (curObj && isEditableObj(curObj)) {
     updateObjAttrs(curObj, { opacity });
   }
 };
@@ -147,11 +158,7 @@ const updateOpacity = (opacity: number) => {
 // 修改边框宽度
 const updateBorderWidth = (borderWidth: number) => {
   objAttrs.borderWidth = borderWidth;
-  if (
-    curObj instanceof ILine ||
-    curObj instanceof IRect ||
-    curObj instanceof ICircle
-  ) {
+  if (curObj && isEditableObj(curObj)) {
     updateObjAttrs(curObj, { strokeWidth: borderWidth });
   }
 };
@@ -236,7 +243,11 @@ const updateBorderType = (dashType: number[]) => {
       </div>
     </div>
     <div class="controller-item" v-show="curObj && !isLine(curObj)">
-      <div class="controller-item-label">填充颜色</div>
+      <div class="controller-item-label">
+        {{
+          curObj ? (isTextBox(curObj) ? "文字颜色" : "填充颜色") : "填充颜色"
+        }}
+      </div>
       <div class="controller-item-value">
         <IColorPicker
           style="width: 200px"
@@ -245,8 +256,20 @@ const updateBorderType = (dashType: number[]) => {
         />
       </div>
     </div>
-    <div class="controller-item">
-      <div class="controller-item-label">开启边框</div>
+    <div class="controller-item" v-if="curObj && isTextBox(curObj)">
+      <div class="controller-item-label">背景颜色</div>
+      <div class="controller-item-value">
+        <IColorPicker
+          style="width: 200px"
+          :color="objAttrs.backgroundColor"
+          @update:color="updateBackgroundColor"
+        />
+      </div>
+    </div>
+    <div class="controller-item" v-if="curObj && !isLine(curObj)">
+      <div class="controller-item-label">
+        {{ isTextBox(curObj) ? "开启描边" : "开启边框" }}
+      </div>
       <div class="controller-item-value">
         <v-switch
           inset
@@ -258,7 +281,17 @@ const updateBorderType = (dashType: number[]) => {
     </div>
     <template v-if="hasBorder">
       <div class="controller-item">
-        <div class="controller-item-label">边框颜色</div>
+        <div class="controller-item-label">
+          {{
+            curObj
+              ? isLine(curObj)
+                ? "线条颜色"
+                : isTextBox(curObj)
+                ? "描边颜色"
+                : "边框颜色"
+              : "边框颜色"
+          }}
+        </div>
         <div class="controller-item-value">
           <IColorPicker
             style="width: 200px"
@@ -268,7 +301,17 @@ const updateBorderType = (dashType: number[]) => {
         </div>
       </div>
       <div class="controller-item">
-        <div class="controller-item-label">边框宽度</div>
+        <div class="controller-item-label">
+          {{
+            curObj
+              ? isLine(curObj)
+                ? "线条宽度"
+                : isTextBox(curObj)
+                ? "描边宽度"
+                : "边框宽度"
+              : "边框宽度"
+          }}
+        </div>
         <div class="controller-item-value">
           <ISlider
             style="width: 200px"
@@ -281,7 +324,17 @@ const updateBorderType = (dashType: number[]) => {
         </div>
       </div>
       <div class="controller-item">
-        <div class="controller-item-label">边框类型</div>
+        <div class="controller-item-label">
+          {{
+            curObj
+              ? isLine(curObj)
+                ? "线条类型"
+                : isTextBox(curObj)
+                ? "描边类型"
+                : "边框类型"
+              : "边框类型"
+          }}
+        </div>
         <div class="controller-item-value">
           <ISelect
             :list="borderTypeList"
