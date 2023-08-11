@@ -103,6 +103,7 @@ let objAttrs = reactive<
   scaleX: 1,
   scaleY: 1,
   backgroundColor: "",
+  fontWeight: 400,
 });
 
 // 修改填充颜色
@@ -181,12 +182,16 @@ const borderTypeList = [
 ];
 const updateBorderType = (dashType: number[]) => {
   objAttrs.borderType = [...dashType];
-  if (
-    curObj instanceof ILine ||
-    curObj instanceof IRect ||
-    curObj instanceof ICircle
-  ) {
+  if (curObj && isEditableObj(curObj)) {
     updateObjAttrs(curObj, { strokeDashArray: [...objAttrs.borderType] });
+  }
+};
+
+// 修改字体大小
+const updateFontWeight = (fontWeight: number) => {
+  objAttrs.fontWeight = fontWeight;
+  if (curObj && isTextBox(curObj)) {
+    updateObjAttrs(curObj, { fontWeight });
   }
 };
 </script>
@@ -240,6 +245,19 @@ const updateBorderType = (dashType: number[]) => {
           :min="0"
           :max="1"
           @update:slider-value="updateOpacity"
+        />
+      </div>
+    </div>
+    <div class="controller-item" v-if="curObj && isTextBox(curObj)">
+      <div class="controller-item-label">字重</div>
+      <div class="controller-item-value">
+        <ISlider
+          style="width: 200px"
+          :slider-value="objAttrs.fontWeight"
+          :min="100"
+          :max="700"
+          :step="100"
+          @update:slider-value="updateFontWeight"
         />
       </div>
     </div>

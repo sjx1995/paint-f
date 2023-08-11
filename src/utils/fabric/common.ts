@@ -61,6 +61,7 @@ type ICircleObjAttr = {
 type ITextBoxObjAttr = {
   fillColor: string;
   backgroundColor: string;
+  fontWeight: number;
 };
 
 // 处理不同类型的对象的属性，根据类型返回对应的属性集合
@@ -104,6 +105,7 @@ function reduceObjAttrs(obj: ILine | IRect | ICircle | ITextBox) {
     const textBoxAttrs = attrs as ITextBoxObjAttr & ICommonObjAttr;
     textBoxAttrs.fillColor = obj.fill as string;
     textBoxAttrs.backgroundColor = obj.backgroundColor as string;
+    textBoxAttrs.fontWeight = obj.fontWeight as number;
     return textBoxAttrs;
   }
 }

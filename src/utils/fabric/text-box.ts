@@ -28,7 +28,7 @@ const createTextBox = (text: string) => {
     stroke: "#ff0000",
     strokeWidth: 0,
     backgroundColor: "#ffffff00",
-    opacity: 1,
+    fontWeight: 400,
     centeredRotation: true,
     id: uuid(),
   });
