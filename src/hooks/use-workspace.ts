@@ -11,7 +11,7 @@ let canvas: fabric.Canvas | null;
 let cvsContainer: HTMLDivElement | null;
 let workspace: fabric.Rect | null;
 const useCreateWorkspace = (width?: number, height?: number) => {
-  if (width != null && height != null && workspace) {
+  if (workspace) {
     return {
       workspace,
     };
@@ -25,11 +25,6 @@ const useCreateWorkspace = (width?: number, height?: number) => {
     canvas = useCreateCanvas().canvas;
     if (!canvas) {
       throw new Error("canvas is not found");
-    }
-
-    if (workspace) {
-      removeWorkspace(workspace);
-      workspace = null;
     }
 
     workspace = initWorkspace(canvas, width, height);
@@ -51,12 +46,12 @@ const setWorkspaceAttribute = (option: fabric.IRectOptions) => {
   canvas?.renderAll();
 };
 
-const removeWorkspace = (workspace: fabric.Rect) => {
-  if (!canvas) {
-    throw new Error("canvas is not exist");
-  }
-  canvas.remove(workspace);
-};
+// const removeWorkspace = (workspace: fabric.Rect) => {
+//   if (!canvas) {
+//     throw new Error("canvas is not exist");
+//   }
+//   canvas.remove(workspace);
+// };
 
 const initWorkspace = (
   canvas: fabric.Canvas,
@@ -72,7 +67,9 @@ const initWorkspace = (
     stroke: "#000000",
   });
   workspace.hoverCursor = "default";
+  canvas.getContext().globalCompositeOperation = "source-atop";
   canvas.add(workspace);
+  createMask(canvas, workspace);
   const scale = getWorkspaceScale();
   console.log(scale);
   setCvsScale(scale, workspace);
@@ -106,4 +103,30 @@ const getWorkspaceScale = () => {
   return scale;
 };
 
-export { useCreateWorkspace, setWorkspaceAttribute, getWorkspaceScale };
+const createMask = (canvas: fabric.Canvas, workspace: fabric.Rect) => {
+  canvas.clipPath = new fabric.Rect({
+    width: workspace.width,
+    height: workspace.height,
+    top: workspace.top,
+    left: workspace.left,
+  });
+};
+
+const resizeWorkspace = (width: number, height: number) => {
+  if (!workspace) {
+    throw new Error("workspace is not found");
+  }
+  workspace.set({
+    width,
+    height,
+  });
+  const scale = getWorkspaceScale();
+  setCvsScale(scale, workspace);
+};
+
+export {
+  useCreateWorkspace,
+  setWorkspaceAttribute,
+  getWorkspaceScale,
+  resizeWorkspace,
+};

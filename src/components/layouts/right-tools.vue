@@ -34,7 +34,7 @@ ee.on(enumEvent.SELECT_NONE, () => {
       </v-tab>
       <v-tab :value="enumTab.ELEMENT_SETTING">
         <Icon icon="icon-park-outline:add-item" />
-        元素设置
+        组件设置
       </v-tab>
       <v-tab :value="enumTab.SYSTEM_TOOL">
         <Icon icon="carbon:tool-kit" />

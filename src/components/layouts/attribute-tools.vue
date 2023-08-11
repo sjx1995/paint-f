@@ -4,6 +4,7 @@
  * @Date: 2023-08-07 08:06:41
 -->
 <script lang="ts" setup>
+import { hasEditableObject } from "@/hooks/use-fabric";
 import { ee, enumEvent } from "@/utils/event-emitter";
 import { ILine } from "@/utils/fabric/line";
 import { IRect } from "@/utils/fabric/rect";
@@ -26,6 +27,7 @@ import { reactive, ref } from "vue";
 import IColorPicker from "@/components/i-color-picker.vue";
 import ISlider from "@/components/i-slider.vue";
 import ISelect from "@/components/i-select.vue";
+import { Icon } from "@iconify/vue";
 
 let curObj: fabric.Object | null;
 ee.on(enumEvent.SELECT_ONE, (obj: ILine | IRect | ICircle) => {
@@ -190,7 +192,7 @@ const updateBorderType = (dashType: number[]) => {
 </script>
 
 <template>
-  <div v-show="showAttribute" class="controller-container">
+  <div v-if="showAttribute" class="controller-container">
     <div class="controller-item">
       <div class="controller-item-label">左边距</div>
       <div class="controller-item-value">
@@ -344,6 +346,17 @@ const updateBorderType = (dashType: number[]) => {
       </div>
     </template>
   </div>
+
+  <div class="empty-tip" v-else>
+    <template v-if="hasEditableObject()">
+      <Icon icon="icon-park-outline:click" />
+      <p>请选中组件以编辑</p>
+    </template>
+    <template v-else>
+      <Icon icon="ri:drag-drop-line" />
+      <p>请先添加组件</p>
+    </template>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -366,6 +379,14 @@ const updateBorderType = (dashType: number[]) => {
       width: 240px;
       line-height: 44px;
     }
+  }
+}
+.empty-tip {
+  font-size: 60px;
+  margin-top: 80px;
+  text-align: center;
+  p {
+    font-size: 20px;
   }
 }
 </style>

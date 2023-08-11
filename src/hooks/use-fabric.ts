@@ -5,6 +5,7 @@
  */
 import { fabric } from "fabric";
 import { onMounted } from "vue";
+import { isEditableObj } from "@/utils/fabric/common";
 
 const PARENT_SELECTOR = "#mid-container";
 
@@ -97,4 +98,11 @@ const setObjCenter = (obj: fabric.Object) => {
   canvas.renderAll();
 };
 
-export { useCreateCanvas, setCvsScale, setObjCenter };
+const hasEditableObject = () => {
+  if (!canvas) {
+    return false;
+  }
+  return canvas.getObjects().some((obj) => isEditableObj(obj));
+};
+
+export { useCreateCanvas, setCvsScale, setObjCenter, hasEditableObject };

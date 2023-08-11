@@ -4,11 +4,8 @@
  * @Date: 2023-08-10 23:33:49
 -->
 <script lang="ts" setup>
-import type { fabric } from "fabric";
-import {
-  useCreateWorkspace,
-  setWorkspaceAttribute,
-} from "@/hooks/use-workspace";
+import PageSizeTools from "@/components/layouts/page-size-tools.vue";
+import { setWorkspaceAttribute } from "@/hooks/use-workspace";
 
 const swatches = [
   ["#00000000", "#ffa940", "#36cfc9"],
@@ -19,20 +16,14 @@ const swatches = [
   ["#ff7a45", "#237804", "#f759ab"],
 ];
 
-let workspace: fabric.Rect | null;
 const setWorkspaceColor = (color: string) => {
-  if (!workspace) {
-    workspace = useCreateWorkspace()?.workspace;
-  }
-  if (!workspace) {
-    throw new Error("workspace is not exist");
-  }
-
   setWorkspaceAttribute({ fill: color });
 };
 </script>
 
 <template>
+  <PageSizeTools />
+
   <v-color-picker
     :swatches="swatches"
     :width="360"

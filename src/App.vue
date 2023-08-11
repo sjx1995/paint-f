@@ -12,7 +12,7 @@ import { useSelection } from "@/hooks/use-selection";
 import { useObjectEvent } from "@/hooks/use-object-event";
 
 useCreateCanvas("canvas");
-useCreateWorkspace(768, 1024);
+useCreateWorkspace(1170, 2352);
 useSelection();
 useObjectEvent();
 </script>
