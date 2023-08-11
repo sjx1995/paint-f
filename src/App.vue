@@ -4,7 +4,7 @@
  * @Date: 2023-08-05 04:07:11
 -->
 <script lang="ts" setup>
-import GraphTools from "@/components/layouts/graph-tools.vue";
+import leftTools from "./components/layouts/left-tools.vue";
 import RightTools from "./components/layouts/right-tools.vue";
 import { useCreateCanvas } from "@/hooks/use-fabric";
 import { useCreateWorkspace } from "@/hooks/use-workspace";
@@ -20,7 +20,7 @@ useObjectEvent();
 <template>
   <div id="main-container">
     <div id="left-container">
-      <GraphTools />
+      <leftTools />
     </div>
     <div id="mid-container">
       <canvas id="canvas" />
