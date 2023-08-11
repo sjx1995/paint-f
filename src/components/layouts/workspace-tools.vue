@@ -4,6 +4,7 @@
  * @Date: 2023-08-10 23:33:49
 -->
 <script lang="ts" setup>
+import { ref } from "vue";
 import PageSizeTools from "@/components/layouts/page-size-tools.vue";
 import { setWorkspaceAttribute } from "@/hooks/use-workspace";
 
@@ -16,8 +17,10 @@ const swatches = [
   ["#ff7a45", "#237804", "#f759ab"],
 ];
 
+const bgColor = ref("#ffffff");
 const setWorkspaceColor = (color: string) => {
   setWorkspaceAttribute({ fill: color });
+  bgColor.value = color;
 };
 </script>
 
@@ -25,6 +28,7 @@ const setWorkspaceColor = (color: string) => {
   <PageSizeTools />
 
   <v-color-picker
+    :model-value="bgColor"
     :swatches="swatches"
     :width="360"
     show-swatches

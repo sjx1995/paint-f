@@ -4,7 +4,11 @@
  * @Date: 2023-08-07 08:06:41
 -->
 <script lang="ts" setup>
-import { hasEditableObject } from "@/hooks/use-fabric";
+import {
+  hasEditableObject,
+  freezeObject,
+  removeObject,
+} from "@/hooks/use-fabric";
 import { ee, enumEvent } from "@/utils/event-emitter";
 import { ILine } from "@/utils/fabric/line";
 import { IRect } from "@/utils/fabric/rect";
@@ -172,12 +176,24 @@ const borderTypeList = [
     value: [],
   },
   {
+    title: "点线",
+    value: [1, 5],
+  },
+  {
     title: "虚线",
     value: [5, 5],
   },
   {
-    title: "点线",
-    value: [1, 5],
+    title: "破折号",
+    value: [10, 5],
+  },
+  {
+    title: "点划线",
+    value: [10, 5, 1, 5],
+  },
+  {
+    title: "双点划线",
+    value: [10, 5, 1, 5, 1, 5],
   },
 ];
 const updateBorderType = (dashType: number[]) => {
@@ -194,10 +210,48 @@ const updateFontWeight = (fontWeight: number) => {
     updateObjAttrs(curObj, { fontWeight });
   }
 };
+
+// 翻转
+const handleFlip = (isHorizon: boolean) => {
+  if (curObj && isEditableObj(curObj)) {
+    updateObjAttrs(
+      curObj,
+      isHorizon ? { flipX: !curObj.flipX } : { flipY: !curObj.flipY }
+    );
+  }
+};
+
+// 旋转
+const handleRotate = (isClockwise: boolean) => {
+  if (curObj && isEditableObj(curObj)) {
+    let angle = (curObj.angle ?? 0) + (isClockwise ? 90 : -90);
+    angle = angle >= 360 ? angle - 360 : angle;
+    updateObjAttrs(curObj, { angle }, "rotate");
+  }
+};
 </script>
 
 <template>
   <div v-if="showAttribute" class="controller-container">
+    <v-btn @click="handleFlip(true)">
+      <Icon icon="gis:flip-h" />
+    </v-btn>
+    <v-btn @click="handleFlip(false)">
+      <Icon icon="gis:flip-v" />
+    </v-btn>
+    <v-btn @click="handleRotate(true)">
+      <Icon icon="ant-design:rotate-right-outlined" />
+    </v-btn>
+    <v-btn @click="handleRotate(false)">
+      <Icon icon="ant-design:rotate-left-outlined" />
+    </v-btn>
+    <v-btn @click="curObj && freezeObject(curObj)">
+      <Icon icon="ph:lock" />
+    </v-btn>
+    <v-btn class="text-red" @click="curObj && removeObject(curObj)">
+      <Icon icon="mi:delete" />
+    </v-btn>
+
     <div class="controller-item">
       <div class="controller-item-label">左边距</div>
       <div class="controller-item-value">

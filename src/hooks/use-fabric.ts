@@ -105,4 +105,42 @@ const hasEditableObject = () => {
   return canvas.getObjects().some((obj) => isEditableObj(obj));
 };
 
-export { useCreateCanvas, setCvsScale, setObjCenter, hasEditableObject };
+const removeObject = (obj: fabric.Object) => {
+  if (!canvas) {
+    return;
+  }
+  const activeObject = canvas.getActiveObject();
+  if (!activeObject) {
+    return;
+  }
+  canvas.remove(obj);
+  canvas.renderAll();
+};
+
+const freezeObject = (obj: fabric.Object) => {
+  obj.set({
+    selectable: false,
+    evented: false,
+    hoverCursor: "default",
+  });
+  canvas?.discardActiveObject().renderAll();
+};
+
+const unfreezeObject = (obj: fabric.Object) => {
+  obj.set({
+    selectable: true,
+    evented: true,
+    hoverCursor: "move",
+  });
+  canvas?.discardActiveObject().renderAll();
+};
+
+export {
+  useCreateCanvas,
+  setCvsScale,
+  setObjCenter,
+  hasEditableObject,
+  removeObject,
+  freezeObject,
+  unfreezeObject,
+};
