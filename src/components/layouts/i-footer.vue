@@ -26,21 +26,19 @@ import Logo from "@/assets/PaintF-logo.png";
 .footer-wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   user-select: none;
+  margin-left: 12px;
   img {
-    width: 80px;
-    height: 80px;
+    width: 64px;
+    height: 64px;
     margin-right: 8px;
   }
   div {
     color: #1f1f1f;
-    font-size: 14px;
-    p {
-      margin: 2px 0;
-    }
+    font-size: 12px;
     #project-name {
-      font-size: 22px;
+      font-size: 18px;
       font-weight: bold;
     }
     a {

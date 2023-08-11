@@ -15,9 +15,9 @@ import IFooter from "@/components/layouts/i-footer.vue";
 
 <style lang="scss" scoped>
 .left-tools-container {
-  height: calc(100vh - 106px);
+  height: calc(100vh - 88px);
 }
 .footer {
-  height: 106px;
+  height: 88px;
 }
 </style>
