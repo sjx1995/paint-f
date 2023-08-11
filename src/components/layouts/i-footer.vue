@@ -11,7 +11,7 @@ import Logo from "@/assets/PaintF-logo.png";
   <div class="footer-wrapper">
     <img :src="Logo" alt="paint-f-logo" />
     <div>
-      <p id="project-name">Paint-F</p>
+      <p id="project-name">Paint·F</p>
       <p>
         <a href="https://github.com/sjx1995/paint-f/" target="_blank">
           查看 Github 仓库
