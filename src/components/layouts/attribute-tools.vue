@@ -234,21 +234,27 @@ const handleRotate = (isClockwise: boolean) => {
 <template>
   <div v-if="showAttribute" class="controller-container">
     <v-btn @click="handleFlip(true)">
+      <v-tooltip activator="parent" location="top"> 水平翻转 </v-tooltip>
       <Icon icon="gis:flip-h" />
     </v-btn>
     <v-btn @click="handleFlip(false)">
+      <v-tooltip activator="parent" location="top"> 垂直翻转 </v-tooltip>
       <Icon icon="gis:flip-v" />
     </v-btn>
     <v-btn @click="handleRotate(true)">
+      <v-tooltip activator="parent" location="top"> 顺时针旋转90° </v-tooltip>
       <Icon icon="ant-design:rotate-right-outlined" />
     </v-btn>
     <v-btn @click="handleRotate(false)">
+      <v-tooltip activator="parent" location="top"> 逆时针旋转90° </v-tooltip>
       <Icon icon="ant-design:rotate-left-outlined" />
     </v-btn>
     <v-btn @click="curObj && freezeObject(curObj)">
+      <v-tooltip activator="parent" location="top"> 锁定 </v-tooltip>
       <Icon icon="ph:lock" />
     </v-btn>
     <v-btn class="text-red" @click="curObj && removeObject(curObj)">
+      <v-tooltip activator="parent" location="top"> 删除 </v-tooltip>
       <Icon icon="mi:delete" />
     </v-btn>
 
