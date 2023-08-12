@@ -120,6 +120,12 @@ const resizeWorkspace = (width: number, height: number) => {
     width,
     height,
   });
+  if (canvas?.clipPath) {
+    canvas.clipPath.set({
+      width,
+      height,
+    });
+  }
   const scale = getWorkspaceScale();
   setCvsScale(scale, workspace);
 };
