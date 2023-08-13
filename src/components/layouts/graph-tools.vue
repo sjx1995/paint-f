@@ -88,7 +88,7 @@ onMounted(() => {
   nextTick(() => {
     const canvas = useCreateCanvas()?.canvas;
     if (!canvas) {
-      throw new Error("canvas is not exist");
+      throw new Error("canvas is not found");
     }
 
     canvas.on("dragenter", () => {

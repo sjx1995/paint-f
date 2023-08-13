@@ -12,7 +12,7 @@ const useObjectEvent = () => {
   onMounted(() => {
     const canvas = useCreateCanvas().canvas;
     if (!canvas) {
-      throw new Error("canvas is not exist");
+      throw new Error("canvas is not found");
     }
 
     // 移动

@@ -133,7 +133,7 @@ function updateObjAttrs(
   if (!cvs) {
     cvs = useCreateCanvas().canvas;
     if (!cvs) {
-      throw new Error("canvas is not exist");
+      throw new Error("canvas is not found");
     }
   }
   cvs.renderAll();

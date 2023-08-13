@@ -37,10 +37,10 @@ const useCreateWorkspace = (width?: number, height?: number) => {
 
 const setWorkspaceAttribute = (option: fabric.IRectOptions) => {
   if (!workspace) {
-    throw new Error("workspace is not exist");
+    throw new Error("workspace is not found");
   }
   if (!canvas) {
-    throw new Error("canvas is not exist");
+    throw new Error("canvas is not found");
   }
   workspace.set(option);
   canvas?.renderAll();
@@ -48,7 +48,7 @@ const setWorkspaceAttribute = (option: fabric.IRectOptions) => {
 
 // const removeWorkspace = (workspace: fabric.Rect) => {
 //   if (!canvas) {
-//     throw new Error("canvas is not exist");
+//     throw new Error("canvas is not found");
 //   }
 //   canvas.remove(workspace);
 // };
@@ -130,9 +130,31 @@ const resizeWorkspace = (width: number, height: number) => {
   setCvsScale(scale, workspace);
 };
 
+const exportWorkspace = () => {
+  if (!workspace || !canvas) {
+    throw new Error("canvas or workspace is not found");
+  }
+  const originVts = [...(canvas.viewportTransform ?? [1, 0, 0, 1, 0, 0])];
+  canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+  const dataUrl = canvas.toDataURL({
+    left: workspace.left,
+    top: workspace.top,
+    width: workspace.width,
+    height: workspace.height,
+    format: "png",
+    quality: 1,
+  });
+  canvas.setViewportTransform(originVts);
+  const link = document.createElement("a");
+  link.href = dataUrl;
+  link.download = "workspace.png";
+  link.click();
+};
+
 export {
   useCreateWorkspace,
   setWorkspaceAttribute,
   getWorkspaceScale,
   resizeWorkspace,
+  exportWorkspace,
 };

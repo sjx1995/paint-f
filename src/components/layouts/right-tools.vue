@@ -8,6 +8,7 @@ import { ref } from "vue";
 import { Icon } from "@iconify/vue";
 import WorkspaceTools from "@/components/layouts/workspace-tools.vue";
 import AttributeTools from "@/components/layouts/attribute-tools.vue";
+import systemTools from "@/components/layouts/system-tools.vue";
 import { ee, enumEvent } from "@/utils/event-emitter";
 
 enum enumTab {
@@ -52,7 +53,7 @@ ee.on(enumEvent.SELECT_NONE, () => {
       </v-window-item>
 
       <v-window-item :value="enumTab.SYSTEM_TOOL" :eager="true">
-        Three
+        <systemTools />
       </v-window-item>
     </v-window>
   </v-card>
