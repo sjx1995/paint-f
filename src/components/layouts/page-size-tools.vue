@@ -137,6 +137,7 @@ const handleUpdateSize = (size: number[]) => {
 
 <template>
   <ISelect
+    class="mb-2"
     :value="sizeType"
     :list="sizeTypeList"
     @update:value="handleChangeSizeType"

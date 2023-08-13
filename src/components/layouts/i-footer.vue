@@ -28,7 +28,7 @@ import Logo from "@/assets/PaintF-logo.png";
   align-items: center;
   justify-content: flex-start;
   user-select: none;
-  margin-left: 12px;
+  padding-left: 12px;
   img {
     width: 64px;
     height: 64px;
