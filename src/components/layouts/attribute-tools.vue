@@ -33,6 +33,7 @@ import IColorPicker from "@/components/i-color-picker.vue";
 import ISlider from "@/components/i-slider.vue";
 import ISelect from "@/components/i-select.vue";
 import { Icon } from "@iconify/vue";
+import IToolTitle from "@/components/i-tool-title.vue";
 
 let curObj: fabric.Object | null;
 ee.on(enumEvent.SELECT_ONE, (obj: ILine | IRect | ICircle) => {
@@ -234,63 +235,63 @@ const handleRotate = (isClockwise: boolean) => {
 
 <template>
   <div v-if="showAttribute" class="controller-container">
-    <v-btn @click="handleFlip(true)">
-      <v-tooltip activator="parent" location="top"> 水平翻转 </v-tooltip>
-      <Icon icon="gis:flip-h" />
-    </v-btn>
-    <v-btn @click="handleFlip(false)">
-      <v-tooltip activator="parent" location="top"> 垂直翻转 </v-tooltip>
-      <Icon icon="gis:flip-v" />
-    </v-btn>
-    <v-btn @click="handleRotate(true)">
-      <v-tooltip activator="parent" location="top"> 顺时针旋转90° </v-tooltip>
-      <Icon icon="ant-design:rotate-right-outlined" />
-    </v-btn>
-    <v-btn @click="handleRotate(false)">
-      <v-tooltip activator="parent" location="top"> 逆时针旋转90° </v-tooltip>
-      <Icon icon="ant-design:rotate-left-outlined" />
-    </v-btn>
-    <v-btn @click="curObj && freezeObject(curObj)">
-      <v-tooltip activator="parent" location="top"> 锁定 </v-tooltip>
-      <Icon icon="ph:lock" />
-    </v-btn>
-    <v-btn @click="curObj && setObjCenterX(curObj)">
-      <v-tooltip activator="parent" location="top"> 水平居中 </v-tooltip>
-      <Icon icon="bx:horizontal-center" />
-    </v-btn>
-    <v-btn @click="curObj && setObjCenterY(curObj)">
-      <v-tooltip activator="parent" location="top"> 垂直居中 </v-tooltip>
-      <Icon icon="bx:vertical-center" />
-    </v-btn>
-    <v-btn class="text-red" @click="curObj && removeObject(curObj)">
-      <v-tooltip activator="parent" location="top"> 删除 </v-tooltip>
-      <Icon icon="mi:delete" />
-    </v-btn>
+    <IToolTitle icon="iconoir:apple-shortcuts">快捷操作</IToolTitle>
 
-    <div class="controller-item">
-      <div class="controller-item-label">左边距</div>
-      <div class="controller-item-value">
-        {{ objAttrs.left }}
-      </div>
+    <div class="shortcut-container">
+      <v-btn @click="handleFlip(true)">
+        <v-tooltip activator="parent" location="top"> 水平翻转 </v-tooltip>
+        <Icon icon="gis:flip-h" />
+      </v-btn>
+      <v-btn @click="handleFlip(false)">
+        <v-tooltip activator="parent" location="top"> 垂直翻转 </v-tooltip>
+        <Icon icon="gis:flip-v" />
+      </v-btn>
+      <v-btn @click="handleRotate(true)">
+        <v-tooltip activator="parent" location="top"> 顺时针旋转90° </v-tooltip>
+        <Icon icon="ant-design:rotate-right-outlined" />
+      </v-btn>
+      <v-btn @click="handleRotate(false)">
+        <v-tooltip activator="parent" location="top"> 逆时针旋转90° </v-tooltip>
+        <Icon icon="ant-design:rotate-left-outlined" />
+      </v-btn>
+      <v-btn @click="curObj && freezeObject(curObj)">
+        <v-tooltip activator="parent" location="top"> 锁定 </v-tooltip>
+        <Icon icon="ph:lock" />
+      </v-btn>
+      <v-btn @click="curObj && setObjCenterX(curObj)">
+        <v-tooltip activator="parent" location="top"> 水平居中 </v-tooltip>
+        <Icon icon="bx:horizontal-center" />
+      </v-btn>
+      <v-btn @click="curObj && setObjCenterY(curObj)">
+        <v-tooltip activator="parent" location="top"> 垂直居中 </v-tooltip>
+        <Icon icon="bx:vertical-center" />
+      </v-btn>
+      <v-btn class="text-red" @click="curObj && removeObject(curObj)">
+        <v-tooltip activator="parent" location="top"> 删除 </v-tooltip>
+        <Icon icon="mi:delete" />
+      </v-btn>
     </div>
 
-    <div class="controller-item">
-      <div class="controller-item-label">上边距</div>
-      <div class="controller-item-value">
-        {{ objAttrs.top }}
-      </div>
-    </div>
+    <IToolTitle icon="material-symbols:border-top">基本设置</IToolTitle>
 
-    <div class="controller-item">
-      <div class="controller-item-label">宽度</div>
-      <div class="controller-item-value">
-        {{ objAttrs.width * objAttrs.scaleX }}
+    <div class="controller-item controller-item-one-line">
+      <div class="one-line-label">左边距</div>
+      <div class="one-line-value">
+        {{ objAttrs.left.toFixed(2) }}
+      </div>
+      <div class="one-line-label">上边距</div>
+      <div class="one-line-value">
+        {{ objAttrs.top.toFixed(2) }}
       </div>
     </div>
-    <div class="controller-item">
-      <div class="controller-item-label">高度</div>
-      <div class="controller-item-value">
-        {{ objAttrs.height * objAttrs.scaleY }}
+    <div class="controller-item controller-item-one-line">
+      <div class="one-line-label">宽度</div>
+      <div class="one-line-value">
+        {{ (objAttrs.width * objAttrs.scaleX).toFixed(2) }}
+      </div>
+      <div class="one-line-label">高度</div>
+      <div class="one-line-value">
+        {{ (objAttrs.height * objAttrs.scaleY).toFixed(2) }}
       </div>
     </div>
     <div class="controller-item">
@@ -305,15 +306,20 @@ const handleRotate = (isClockwise: boolean) => {
         />
       </div>
     </div>
-    <div class="controller-item">
-      <div class="controller-item-label">透明度</div>
+
+    <IToolTitle icon="material-symbols:style-outline">样式设置</IToolTitle>
+
+    <div class="controller-item" v-show="curObj && !isLine(curObj)">
+      <div class="controller-item-label">
+        {{
+          curObj ? (isTextBox(curObj) ? "文字颜色" : "填充颜色") : "填充颜色"
+        }}
+      </div>
       <div class="controller-item-value">
-        <ISlider
+        <IColorPicker
           style="width: 200px"
-          :slider-value="objAttrs.opacity"
-          :min="0"
-          :max="1"
-          @update:slider-value="updateOpacity"
+          :color="objAttrs.fillColor"
+          @update:color="updateFillColor"
         />
       </div>
     </div>
@@ -330,20 +336,6 @@ const handleRotate = (isClockwise: boolean) => {
         />
       </div>
     </div>
-    <div class="controller-item" v-show="curObj && !isLine(curObj)">
-      <div class="controller-item-label">
-        {{
-          curObj ? (isTextBox(curObj) ? "文字颜色" : "填充颜色") : "填充颜色"
-        }}
-      </div>
-      <div class="controller-item-value">
-        <IColorPicker
-          style="width: 200px"
-          :color="objAttrs.fillColor"
-          @update:color="updateFillColor"
-        />
-      </div>
-    </div>
     <div class="controller-item" v-if="curObj && isTextBox(curObj)">
       <div class="controller-item-label">背景颜色</div>
       <div class="controller-item-value">
@@ -354,6 +346,21 @@ const handleRotate = (isClockwise: boolean) => {
         />
       </div>
     </div>
+    <div class="controller-item">
+      <div class="controller-item-label">透明度</div>
+      <div class="controller-item-value">
+        <ISlider
+          style="width: 200px"
+          :slider-value="objAttrs.opacity"
+          :min="0"
+          :max="1"
+          @update:slider-value="updateOpacity"
+        />
+      </div>
+    </div>
+
+    <IToolTitle icon="material-symbols:border-top">边框设置</IToolTitle>
+
     <div class="controller-item" v-if="curObj && !isLine(curObj)">
       <div class="controller-item-label">
         {{ isTextBox(curObj) ? "开启描边" : "开启边框" }}
@@ -448,13 +455,23 @@ const handleRotate = (isClockwise: boolean) => {
 
 <style lang="scss" scoped>
 .controller-container {
-  margin: 16px auto;
-  width: 360px;
+  width: 100%;
+  .shortcut-container {
+    button {
+      margin: 0 8px 8px;
+    }
+  }
   .controller-item {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 10px;
+    line-height: 32px;
+    .one-line-label {
+      width: 68px;
+    }
+    .one-line-value {
+      width: 110px;
+    }
 
     .controller-item-label {
       width: 100px;
