@@ -7,6 +7,7 @@
 import { ref } from "vue";
 import PageSizeTools from "@/components/layouts/page-size-tools.vue";
 import { setWorkspaceAttribute } from "@/hooks/use-workspace";
+import IToolTitle from "@/components/i-tool-title.vue";
 
 const swatches = [
   ["#00000000", "#ffa940", "#36cfc9"],
@@ -25,12 +26,14 @@ const setWorkspaceColor = (color: string) => {
 </script>
 
 <template>
+  <IToolTitle icon="fluent:slide-size-24-regular">画布尺寸</IToolTitle>
   <PageSizeTools />
 
+  <IToolTitle icon="bxs:color-fill">画布背景</IToolTitle>
   <v-color-picker
     :model-value="bgColor"
     :swatches="swatches"
-    :width="360"
+    :width="336"
     show-swatches
     @update:model-value="setWorkspaceColor"
   />
