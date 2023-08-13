@@ -10,14 +10,39 @@ import { useCreateCanvas } from "@/hooks/use-fabric";
 import { useCreateWorkspace } from "@/hooks/use-workspace";
 import { useSelection } from "@/hooks/use-selection";
 import { useObjectEvent } from "@/hooks/use-object-event";
+import { useWindowSize } from "@vueuse/core";
+import { ref, watch } from "vue";
 
 useCreateCanvas("canvas");
 useCreateWorkspace(1170, 2352);
 useSelection();
 useObjectEvent();
+
+const { height, width } = useWindowSize();
+const showOverlay = ref(false);
+watch(
+  () => [height.value, width.value],
+  ([height, width]) => {
+    if (height < 540 || width < 960) {
+      showOverlay.value = true;
+    } else {
+      showOverlay.value = false;
+    }
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <template>
+  <v-overlay
+    v-model="showOverlay"
+    :persistent="true"
+    class="fullscreen-overlay"
+  >
+    <h1>请在分辨率大于 960*540 的设备上打开</h1>
+  </v-overlay>
   <div id="main-container">
     <div id="left-container">
       <leftTools />
@@ -37,7 +62,7 @@ useObjectEvent();
   height: 100vh;
   display: flex;
   #left-container {
-    min-width: 300px;
+    min-width: 280px;
     background-color: #ccc;
   }
   #mid-container {
@@ -64,9 +89,19 @@ useObjectEvent();
       18px 18px;
   }
   #right-container {
-    min-width: 400px;
+    min-width: 380px;
     background-color: #ccc;
   }
 }
+
+.fullscreen-overlay {
+  backdrop-filter: blur(14px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    font-size: 24px;
+    color: #000;
+  }
+}
 </style>
-./hooks/use-selection

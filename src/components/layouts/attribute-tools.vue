@@ -9,6 +9,7 @@ import {
   freezeObject,
   removeObject,
 } from "@/hooks/use-fabric";
+import { setObjCenterX, setObjCenterY } from "@/hooks/use-workspace";
 import { ee, enumEvent } from "@/utils/event-emitter";
 import { ILine } from "@/utils/fabric/line";
 import { IRect } from "@/utils/fabric/rect";
@@ -118,9 +119,9 @@ const updateFillColor = (color: string) => {
   }
 };
 
-// 修改背景颜色
+// 修改文字背景颜色
 const updateBackgroundColor = (color: string) => {
-  objAttrs.fillColor = color;
+  objAttrs.backgroundColor = color;
   if (curObj && isTextBox(curObj)) {
     updateObjAttrs(curObj, { backgroundColor: color });
   }
@@ -252,6 +253,14 @@ const handleRotate = (isClockwise: boolean) => {
     <v-btn @click="curObj && freezeObject(curObj)">
       <v-tooltip activator="parent" location="top"> 锁定 </v-tooltip>
       <Icon icon="ph:lock" />
+    </v-btn>
+    <v-btn @click="curObj && setObjCenterX(curObj)">
+      <v-tooltip activator="parent" location="top"> 水平居中 </v-tooltip>
+      <Icon icon="bx:horizontal-center" />
+    </v-btn>
+    <v-btn @click="curObj && setObjCenterY(curObj)">
+      <v-tooltip activator="parent" location="top"> 垂直居中 </v-tooltip>
+      <Icon icon="bx:vertical-center" />
     </v-btn>
     <v-btn class="text-red" @click="curObj && removeObject(curObj)">
       <v-tooltip activator="parent" location="top"> 删除 </v-tooltip>

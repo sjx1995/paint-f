@@ -151,10 +151,32 @@ const exportWorkspace = () => {
   link.click();
 };
 
+const setObjCenterX = (obj: fabric.Object) => {
+  if (!workspace) {
+    throw new Error("workspace is not found");
+  }
+  if (workspace.width && obj.width && obj.scaleX) {
+    obj.left = workspace.width / 2 - (obj.width * obj.scaleX) / 2;
+    canvas?.renderAll();
+  }
+};
+
+const setObjCenterY = (obj: fabric.Object) => {
+  if (!workspace) {
+    throw new Error("workspace is not found");
+  }
+  if (workspace.height && obj.height && obj.scaleY) {
+    obj.top = workspace.height / 2 - (obj.height * obj.scaleY) / 2;
+    canvas?.renderAll();
+  }
+};
+
 export {
   useCreateWorkspace,
   setWorkspaceAttribute,
   getWorkspaceScale,
   resizeWorkspace,
   exportWorkspace,
+  setObjCenterX,
+  setObjCenterY,
 };

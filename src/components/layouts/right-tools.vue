@@ -62,6 +62,7 @@ ee.on(enumEvent.SELECT_NONE, () => {
 <style lang="scss" setup>
 .right-tools-container {
   height: calc(100vh - 48px);
+  overflow-y: auto !important;
   background-color: #ccc;
 }
 </style>
