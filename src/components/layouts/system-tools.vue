@@ -6,10 +6,19 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue";
 import { exportWorkspace } from "@/hooks/use-workspace";
+import { ref } from "vue";
+
+const showMask = ref(false);
+const handleExport = () => {
+  showMask.value = true;
+  exportWorkspace();
+  showMask.value = false;
+};
 </script>
 
 <template>
-  <v-btn @click="exportWorkspace">
+  <v-overlay v-model="showMask" :persistent="true" />
+  <v-btn class="mt-4" @click="handleExport" :loading="showMask" block>
     <Icon icon="carbon:save" />
     导出画布
   </v-btn>
