@@ -43,9 +43,9 @@ ee.on(enumEvent.SELECT_NONE, () => {
       </v-tab>
     </v-tabs>
 
-    <v-window v-model="tab" class="right-tools-container">
+    <v-window v-model="tab" class="right-tools-container px-4 pb-12">
       <v-window-item :value="enumTab.CANVAS_SETTING" :eager="true">
-        <WorkspaceTools class="ma-3" />
+        <WorkspaceTools />
       </v-window-item>
 
       <v-window-item :value="enumTab.ELEMENT_SETTING" :eager="true">
@@ -63,6 +63,6 @@ ee.on(enumEvent.SELECT_NONE, () => {
 .right-tools-container {
   height: calc(100vh - 48px);
   overflow-y: auto !important;
-  background-color: #ccc;
+  background-color: #eaeaea;
 }
 </style>
