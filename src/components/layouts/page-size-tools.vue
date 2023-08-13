@@ -7,6 +7,7 @@
 import ISelect from "@/components/i-select.vue";
 import { resizeWorkspace } from "@/hooks/use-workspace";
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 
 const webSizeList = [
   { title: "3840x2160", value: [3840, 2160] },
@@ -115,8 +116,8 @@ const paperSizeList = [
   { title: "Quarto", value: [610, 780] },
 ];
 
-const sizeType = ref(iPhoneSizeList);
-const canvasSize = ref([1170, 2532]);
+const sizeType = ref(webSizeList);
+const workspaceSize = ref([1280, 800]);
 const sizeTypeList = [
   { title: "网页尺寸", value: webSizeList },
   { title: "iPhone 尺寸", value: iPhoneSizeList },
@@ -126,12 +127,22 @@ const sizeTypeList = [
 ];
 
 const handleChangeSizeType = (type: { title: string; value: number[] }[]) => {
-  resizeWorkspace(type[0].value[0], type[0].value[1]);
   sizeType.value = type;
+  workspaceSize.value = type[0].value;
+  resizeWorkspace(type[0].value[0], type[0].value[1]);
 };
 const handleUpdateSize = (size: number[]) => {
+  workspaceSize.value = size;
   resizeWorkspace(size[0], size[1]);
-  canvasSize.value = size;
+};
+
+const isReversed = ref(false);
+const handleRotateWorkspace = () => {
+  isReversed.value = !isReversed.value;
+  const [width, height] = isReversed.value
+    ? [workspaceSize.value[1], workspaceSize.value[0]]
+    : [workspaceSize.value[0], workspaceSize.value[1]];
+  resizeWorkspace(width, height);
 };
 </script>
 
@@ -143,8 +154,29 @@ const handleUpdateSize = (size: number[]) => {
     @update:value="handleChangeSizeType"
   />
   <ISelect
-    :value="canvasSize"
+    class="mb-2"
+    :value="workspaceSize"
     :list="sizeType"
     @update:value="handleUpdateSize"
   />
+  <div class="flex">
+    <v-btn class="mr-2" @click="handleRotateWorkspace">
+      <Icon icon="ic:outline-crop-rotate" />
+      旋转画布
+    </v-btn>
+    <span class="mr-2 text-center">
+      画布尺寸 长:
+      {{ isReversed ? workspaceSize[1] : workspaceSize[0] }}
+    </span>
+    <span>
+      宽:
+      {{ isReversed ? workspaceSize[0] : workspaceSize[1] }}
+    </span>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+span {
+  vertical-align: middle;
+}
+</style>

@@ -138,7 +138,7 @@ onMounted(() => {
 
 <template>
   <div id="graph-tools-container">
-    <IToolTitle icon="bxs:component">基础组件</IToolTitle>
+    <IToolTitle icon="bxs:component" class="mt-0">基础组件</IToolTitle>
 
     <div id="graphs">
       <div

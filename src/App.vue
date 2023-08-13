@@ -14,7 +14,7 @@ import { useWindowSize } from "@vueuse/core";
 import { ref, watch } from "vue";
 
 useCreateCanvas("canvas");
-useCreateWorkspace(1170, 2352);
+useCreateWorkspace(1280, 720);
 useSelection();
 useObjectEvent();
 
