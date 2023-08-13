@@ -57,6 +57,8 @@ const initCanvas = (
   return new fabric.Canvas(id, {
     stopContextMenu: true, // 禁用右键菜单
     backgroundColor: "transparent", // 背景颜色
+    // todo 支持多选
+    selection: false, // 禁用多选
     // width,
     // height,
   });

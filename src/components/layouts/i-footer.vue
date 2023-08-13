@@ -17,7 +17,7 @@ import Logo from "@/assets/PaintF-logo.png";
           查看 Github 仓库
         </a>
       </p>
-      <p>Sunly © 2023</p>
+      <p>© Sunly 2023</p>
     </div>
   </div>
 </template>

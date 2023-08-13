@@ -8,6 +8,7 @@ import { EventEmitter } from "events";
 enum enumEvent {
   "SELECT_ONE",
   "SELECT_NONE",
+  "SELECT_UPDATE",
   "MOVING",
   "SCALING",
   "ROTATING",
