@@ -12,6 +12,7 @@ import { createLine } from "@/utils/fabric/line";
 import { createRect } from "@/utils/fabric/rect";
 import { createCircle } from "@/utils/fabric/circle";
 import { createTextBox } from "@/utils/fabric/text-box";
+import IToolTitle from "@/components/i-tool-title.vue";
 
 enum EnumGraphType {
   LINE = "line",
@@ -137,6 +138,8 @@ onMounted(() => {
 
 <template>
   <div id="graph-tools-container">
+    <IToolTitle icon="bxs:component">基础组件</IToolTitle>
+
     <div id="graphs">
       <div
         class="graph"
