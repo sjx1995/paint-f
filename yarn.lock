@@ -872,7 +872,7 @@
 
 "@vueuse/core@^10.3.0":
   version "10.3.0"
-  resolved "https://registry.npmjs.org/@vueuse/core/-/core-10.3.0.tgz"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-10.3.0.tgz#b2dab7821ef206811b925fc935163c38056fd82b"
   integrity sha512-BEM5yxcFKb5btFjTSAFjTu5jmwoW66fyV9uJIP4wUXXU8aR5Hl44gndaaXp7dC5HSObmgbnR2RN+Un1p68Mf5Q==
   dependencies:
     "@types/web-bluetooth" "^0.0.17"

@@ -5,6 +5,7 @@
 -->
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useElementBounding } from "@vueuse/core";
 
 const { color } = defineModels<{
   color: string;
@@ -12,9 +13,16 @@ const { color } = defineModels<{
 
 const pickerWrapperRef = ref<HTMLElement | null>(null);
 const showPicker = ref(false);
+const topShowModal = ref(true);
 const handleTogglePicker = () => {
   showPicker.value = !showPicker.value;
   if (showPicker.value) {
+    const { top } = useElementBounding(pickerWrapperRef);
+    if (window.innerHeight - top.value < 400) {
+      topShowModal.value = true;
+    } else {
+      topShowModal.value = false;
+    }
     document.addEventListener("click", handleHidePicker);
   } else {
     document.removeEventListener("click", handleHidePicker);
@@ -32,7 +40,10 @@ const handleHidePicker = (e: MouseEvent) => {
     <div class="picker-color-container" @click="handleTogglePicker">
       <div class="picker-color" :style="{ background: color }" />
     </div>
-    <div class="picker-modal" v-show="showPicker">
+    <div
+      :class="{ 'picker-modal': true, 'show-top': topShowModal }"
+      v-show="showPicker"
+    >
       <v-color-picker elevation="15" mode="hexa" v-model="color" />
     </div>
   </div>
@@ -90,9 +101,14 @@ const handleHidePicker = (e: MouseEvent) => {
   }
   .picker-modal {
     position: absolute;
-    top: 30px;
     right: 0;
     z-index: 999;
+    &:not(.show-top) {
+      top: 30px;
+    }
+    &.show-top {
+      bottom: 30px;
+    }
   }
 }
 </style>
