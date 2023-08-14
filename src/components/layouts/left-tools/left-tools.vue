@@ -4,8 +4,8 @@
  * @Date: 2023-08-11 15:46:21
 -->
 <script lang="ts" setup>
-import GraphTools from "@/components/layouts/graph-tools.vue";
-import IFooter from "@/components/layouts/i-footer.vue";
+import GraphTools from "@/components/layouts/left-tools/graph-tools.vue";
+import IFooter from "@/components/layouts/left-tools/i-footer.vue";
 </script>
 
 <template>

@@ -5,9 +5,9 @@
 -->
 <script lang="ts" setup>
 import { ref } from "vue";
-import PageSizeTools from "@/components/layouts/page-size-tools.vue";
+import PageSizeTools from "@/components/layouts/right-tools/page-size-tools.vue";
 import { setWorkspaceAttribute } from "@/hooks/use-workspace";
-import IToolTitle from "@/components/i-tool-title.vue";
+import IToolTitle from "@/components/base/i-tool-title.vue";
 
 const swatches = [
   ["#00000000", "#ffa940", "#36cfc9"],

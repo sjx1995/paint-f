@@ -6,7 +6,7 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue";
 import { exportWorkspace } from "@/hooks/use-workspace";
-import IToolTitle from "@/components/i-tool-title.vue";
+import IToolTitle from "@/components/base/i-tool-title.vue";
 import { ref } from "vue";
 
 const showMask = ref(false);

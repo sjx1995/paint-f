@@ -4,7 +4,7 @@
  * @Date: 2023-08-11 08:29:23
 -->
 <script lang="ts" setup>
-import ISelect from "@/components/i-select.vue";
+import ISelect from "@/components/base/i-select.vue";
 import { resizeWorkspace } from "@/hooks/use-workspace";
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";

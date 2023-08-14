@@ -12,7 +12,7 @@ import { createLine } from "@/utils/fabric/line";
 import { createRect } from "@/utils/fabric/rect";
 import { createCircle } from "@/utils/fabric/circle";
 import { createTextBox } from "@/utils/fabric/text-box";
-import IToolTitle from "@/components/i-tool-title.vue";
+import IToolTitle from "@/components/base/i-tool-title.vue";
 
 enum EnumGraphType {
   LINE = "line",

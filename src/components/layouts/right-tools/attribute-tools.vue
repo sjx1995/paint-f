@@ -29,11 +29,11 @@ import {
   isTextBox,
 } from "@/utils/fabric/common";
 import { reactive, ref } from "vue";
-import IColorPicker from "@/components/i-color-picker.vue";
-import ISlider from "@/components/i-slider.vue";
-import ISelect from "@/components/i-select.vue";
+import IColorPicker from "@/components/base/i-color-picker.vue";
+import ISlider from "@/components/base/i-slider.vue";
+import ISelect from "@/components/base/i-select.vue";
 import { Icon } from "@iconify/vue";
-import IToolTitle from "@/components/i-tool-title.vue";
+import IToolTitle from "@/components/base/i-tool-title.vue";
 
 let curObj: fabric.Object | null;
 ee.on(enumEvent.SELECT_ONE, (obj: ILine | IRect | ICircle) => {

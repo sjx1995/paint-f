@@ -4,8 +4,8 @@
  * @Date: 2023-08-05 04:07:11
 -->
 <script lang="ts" setup>
-import leftTools from "./components/layouts/left-tools.vue";
-import RightTools from "./components/layouts/right-tools.vue";
+import leftTools from "@/components/layouts/left-tools/left-tools.vue";
+import RightTools from "@/components/layouts/right-tools/right-tools.vue";
 import { useCreateCanvas } from "@/hooks/use-fabric";
 import { useCreateWorkspace } from "@/hooks/use-workspace";
 import { useSelection } from "@/hooks/use-selection";

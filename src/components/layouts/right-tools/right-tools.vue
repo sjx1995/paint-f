@@ -6,9 +6,9 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { Icon } from "@iconify/vue";
-import WorkspaceTools from "@/components/layouts/workspace-tools.vue";
-import AttributeTools from "@/components/layouts/attribute-tools.vue";
-import systemTools from "@/components/layouts/system-tools.vue";
+import WorkspaceTools from "@/components/layouts/right-tools/workspace-tools.vue";
+import AttributeTools from "@/components/layouts/right-tools/attribute-tools.vue";
+import systemTools from "@/components/layouts/right-tools/system-tools.vue";
 import { ee, enumEvent } from "@/utils/event-emitter";
 
 enum enumTab {
