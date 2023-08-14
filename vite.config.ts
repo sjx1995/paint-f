@@ -9,34 +9,36 @@ import VueMacros from "unplugin-vue-macros/vite";
 import path from "path";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@import "@/styles/variable.scss";`,
+export default defineConfig(({ mode }) => {
+  return {
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
       },
     },
-  },
-  esbuild: {
-    drop: ["console", "debugger"],
-  },
-  plugins: [
-    VueMacros({
-      plugins: {
-        vue: vue({
-          include: [/\.vue$/, /\.setup\.[cm]?[jt]sx?$/],
-          reactivityTransform: true,
-          script: {
-            // @ts-ignore
-            hoistStatic: false,
-          },
-        }),
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "@/styles/variable.scss";`,
+        },
       },
-    }),
-  ],
+    },
+    esbuild: {
+      drop: mode === "production" ? ["console", "debugger"] : [],
+    },
+    plugins: [
+      VueMacros({
+        plugins: {
+          vue: vue({
+            include: [/\.vue$/, /\.setup\.[cm]?[jt]sx?$/],
+            reactivityTransform: true,
+            script: {
+              // @ts-ignore
+              hoistStatic: false,
+            },
+          }),
+        },
+      }),
+    ],
+  };
 });

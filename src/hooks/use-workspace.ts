@@ -6,6 +6,7 @@
 import { onMounted } from "vue";
 import { useCreateCanvas, setCvsScale } from "./use-fabric";
 import { fabric } from "fabric";
+import { useResizeObserver } from "@vueuse/core";
 
 let canvas: fabric.Canvas | null;
 let cvsContainer: HTMLDivElement | null;
@@ -74,6 +75,7 @@ const initWorkspace = (
   console.log(scale);
   setCvsScale(scale, workspace);
 
+  obverseWindowResize();
   // canvas.sendToBack(workspace);
 
   canvas.renderAll();
@@ -112,6 +114,12 @@ const createMask = (canvas: fabric.Canvas, workspace: fabric.Rect) => {
   });
 };
 
+const obverseWindowResize = () => {
+  useResizeObserver(document.documentElement, () => {
+    setWorkspaceRightSize();
+  });
+};
+
 const resizeWorkspace = (width: number, height: number) => {
   if (!workspace) {
     throw new Error("workspace is not found");
@@ -125,6 +133,13 @@ const resizeWorkspace = (width: number, height: number) => {
       width,
       height,
     });
+  }
+  setWorkspaceRightSize();
+};
+
+const setWorkspaceRightSize = () => {
+  if (!workspace) {
+    throw new Error("workspace is not found");
   }
   const scale = getWorkspaceScale();
   setCvsScale(scale, workspace);
@@ -176,6 +191,7 @@ export {
   setWorkspaceAttribute,
   getWorkspaceScale,
   resizeWorkspace,
+  setWorkspaceRightSize,
   exportWorkspace,
   setObjCenterX,
   setObjCenterY,

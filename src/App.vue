@@ -64,27 +64,29 @@ watch(
   height: 100vh;
   display: flex;
   #left-container {
-    min-width: 280px;
+    width: 280px;
     background-color: #ccc;
   }
   #mid-container {
     position: relative;
-    flex-grow: 1;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
     background: linear-gradient(
         45deg,
-        rgba(0, 0, 0, 0.15) 25%,
+        rgba(0, 0, 0, 0.1) 25%,
         transparent 25%,
         transparent 75%,
-        rgba(0, 0, 0, 0.15) 75%,
-        rgba(0, 0, 0, 0.15) 100%
+        rgba(0, 0, 0, 0.1) 75%,
+        rgba(0, 0, 0, 0.1) 100%
       ),
       linear-gradient(
         45deg,
-        rgba(0, 0, 0, 0.15) 25%,
+        rgba(0, 0, 0, 0.1) 25%,
         transparent 25%,
         transparent 75%,
-        rgba(0, 0, 0, 0.15) 75%,
-        rgba(0, 0, 0, 0.15) 100%
+        rgba(0, 0, 0, 0.1) 75%,
+        rgba(0, 0, 0, 0.1) 100%
       );
     background-size: 36px 36px;
     background-position:
@@ -97,7 +99,7 @@ watch(
     }
   }
   #right-container {
-    min-width: 380px;
+    width: 380px;
     background-color: #ccc;
   }
 }
