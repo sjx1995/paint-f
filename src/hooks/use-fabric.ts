@@ -54,13 +54,30 @@ const initCanvas = (
   // width: number,
   // height: number
 ) => {
-  return new fabric.Canvas(id, {
+  const cvs = new fabric.Canvas(id, {
     stopContextMenu: true, // 禁用右键菜单
     backgroundColor: "transparent", // 背景颜色
     // todo 支持多选
     selection: false, // 禁用多选
     // width,
     // height,
+  });
+  setWheelScale(cvs); // 设置滚轮缩放
+  return cvs;
+};
+
+const setWheelScale = (canvas: fabric.Canvas) => {
+  canvas.on("mouse:wheel", (opt) => {
+    const { e } = opt;
+    const delta = e.deltaY;
+    let zoom = canvas.getZoom();
+    zoom *= 0.999 ** delta;
+    if (zoom > 20) zoom = 20;
+    if (zoom < 0.01) zoom = 0.01;
+    const { left, top } = canvas.getCenter();
+    canvas.zoomToPoint(new fabric.Point(left, top), zoom);
+    opt.e.preventDefault();
+    opt.e.stopPropagation();
   });
 };
 
