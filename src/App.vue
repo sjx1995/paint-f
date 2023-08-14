@@ -12,6 +12,7 @@ import { useSelection } from "@/hooks/use-selection";
 import { useObjectEvent } from "@/hooks/use-object-event";
 import { useWindowSize } from "@vueuse/core";
 import { ref, watch } from "vue";
+import CanvasShortcuts from "./components/layouts/canvas-shortcuts.vue";
 
 useCreateCanvas("canvas");
 useCreateWorkspace(1280, 720);
@@ -49,6 +50,7 @@ watch(
     </div>
     <div id="mid-container">
       <canvas id="canvas" />
+      <CanvasShortcuts id="canvas-shortcuts" />
     </div>
     <div id="right-container">
       <RightTools />
@@ -66,6 +68,7 @@ watch(
     background-color: #ccc;
   }
   #mid-container {
+    position: relative;
     flex-grow: 1;
     background: linear-gradient(
         45deg,
@@ -87,6 +90,11 @@ watch(
     background-position:
       0 0,
       18px 18px;
+    #canvas-shortcuts {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+    }
   }
   #right-container {
     min-width: 380px;
